@@ -17,7 +17,7 @@ public class Snake extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(1, 0, 1, 1);
+		ScreenUtils.clear(1, 0, 0.56f, 1);
 		batch.begin();
 		batch.draw(img, 1, 3);
 		batch.end();
