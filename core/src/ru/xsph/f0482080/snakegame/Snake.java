@@ -6,13 +6,26 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Snake extends ApplicationAdapter {
+	OrthographicCamera camera;
 	SpriteBatch batch;
-	Texture img;
+	Texture snakehead;
+	Texture snakeback;
+	Texture normalfood;
+	Texture badfood;
+
 	
 	@Override
 	public void create () {
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, 800, 480);
+		
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		//img = new Texture("badlogic.jpg");
+		
+		snakehead = new Texture("snake-hat.png");
+		snakeback = new Texture("snake-back.png");
+		normalfood = new Texture("food.png");
+		badfood = new Texture("bad-food.png");
 	}
 
 	@Override
