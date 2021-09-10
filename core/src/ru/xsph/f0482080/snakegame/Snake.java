@@ -17,7 +17,10 @@ public class Snake extends ApplicationAdapter {
 	@Override
 	public void create () {
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 480);
+		camera.setToOrtho(false, 480, 800);
+		
+		int width = 480;
+		int height = 800;
 		
 		batch = new SpriteBatch();
 		//img = new Texture("badlogic.jpg");
