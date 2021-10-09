@@ -12,6 +12,7 @@ public class Snake extends ApplicationAdapter {
 	Texture snakeback;
 	Texture normalfood;
 	Texture badfood;
+	#tttthj
 
 	
 	@Override
