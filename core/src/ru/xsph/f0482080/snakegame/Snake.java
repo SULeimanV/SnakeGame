@@ -23,6 +23,11 @@ public class Snake extends ApplicationAdapter {
 		int width = 480;
 		int height = 800;
 		
+		int box = 10;
+		
+		int map_w = 48;
+		int map_h = 80;
+		
 		batch = new SpriteBatch();
 		//img = new Texture("badlogic.jpg");
 		
@@ -36,13 +41,14 @@ public class Snake extends ApplicationAdapter {
 	public void render () {
 		ScreenUtils.clear(1, 0, 0.56f, 1);
 		batch.begin();
-		batch.draw(img, 1, 3);
+		//batch.draw(img, 1, 3);
+		batch.draw(snakehead, 1, 3);
 		batch.end();
 	}
 	
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
+		//img.dispose();
 	}
 }
