@@ -21,11 +21,15 @@ import java.util.Iterator;
 public class StanGame implements Screen {
     final Snake game;
     OrthographicCamera camera;
-    int length;
+    int length = 1;
+    int block = 10;
+    int width = 800;
+    int height = 480;
     Texture food;
     Texture badfood;
     Texture snakeh;
     Texture snakeb;
+    Rectangle foodr;
     //Texture dropImage;
     //Texture bucketImage;
     //Sound dropSound;
@@ -37,6 +41,21 @@ public class StanGame implements Screen {
     //int dropsGatchered;
     //String dropString;
 
+/*Home.png
+3 months ago
+IMG_20210430_145209.jpg
+3 months ago
+IMG_20210907_152556_508.jpg
+3 months ago
+bad-food.png
+3 months ago
+badlogic.jpg
+3 months ago
+food.png
+3 months ago
+snake-back.png
+3 months ago
+snake-hat.png*/
 
 
     public StanGame (final Snake gam) {
@@ -44,9 +63,18 @@ public class StanGame implements Screen {
         this.game = gam;
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, width, height);
 
         //touchPos = new Vector3();
+
+        food    = new Texture("food.png");
+        badfood = new Texture("bad-food.png");
+        snakeh  = new Texture("snake-hat.png");
+        snakeb  = new Texture("snake-back.png");
+
+        foodr = new Rectangle();
+        foodr.width = block;
+    	foodr.height = block;
 
         //dropImage = new Texture("kaplya.png");
         //bucketImage = new Texture("bucket.png");
@@ -92,6 +120,7 @@ public class StanGame implements Screen {
 
         //raindrops = new Array<Rectangle>();
         //spawnRaindrop();
+        spawnFood();
 
     }
 
@@ -104,6 +133,13 @@ public class StanGame implements Screen {
         raindrops.add(raindrop);
         lastDropTime = TimeUtils.nanoTime();
     }*/
+    private void spawnFood (){
+    	//foodr = new Rectangle();
+    	foodr.x = MathUtils.random(0, width - 10);
+    	foodr.y = MathUtils.random(0, height - 10);
+
+
+    }
 
     @Override
     public void render (float delta) {
@@ -114,7 +150,8 @@ public class StanGame implements Screen {
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.font.draw(game.batch, "Drops Collected: ", 0, 480);
+        game.batch.draw(food, foodr.x, foodr.y);
+        //game.font.draw(game.batch, "Score: ", 0, 480);
         //game.batch.draw(bucketImage, bucket.x, bucket.y);
         //for (Rectangle raindrop: raindrops){
         //    game.batch.draw(dropImage, raindrop.x, raindrop.y);
@@ -177,6 +214,9 @@ public class StanGame implements Screen {
     @Override
     public void dispose() {
         food.dispose();
+        badfood.dispose();
+        snakeh.dispose();
+        snakeb.dispose();
         //dropImage.dispose();
         //bucketImage.dispose();
         //dropSound.dispose();
