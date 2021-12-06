@@ -21,6 +21,11 @@ import java.util.Iterator;
 public class StanGame implements Screen {
     final Snake game;
     OrthographicCamera camera;
+    int length;
+    Texture food;
+    Texture badfood;
+    Texture snakeh;
+    Texture snakeb;
     //Texture dropImage;
     //Texture bucketImage;
     //Sound dropSound;
@@ -171,6 +176,7 @@ public class StanGame implements Screen {
 
     @Override
     public void dispose() {
+        food.dispose();
         //dropImage.dispose();
         //bucketImage.dispose();
         //dropSound.dispose();
