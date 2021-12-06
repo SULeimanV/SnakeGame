@@ -2,9 +2,9 @@
 the snake game on the LibGDX
 
 ----------
-license:
+version:
 
-Apache 2.0
+Snake 0.1 beta
 ----------
 
 
