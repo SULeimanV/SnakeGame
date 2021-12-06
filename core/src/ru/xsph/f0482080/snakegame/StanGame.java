@@ -29,8 +29,10 @@ public class StanGame implements Screen {
     int height = 480;
     int score = 0;
     int state = 0;
-    int lastPosX = 0;
-    int lastPosY = 0;
+    float lastPosX = 0;
+    float lastPosY = 0;
+    float lastPosXQ = 0;
+    float lastPosYQ = 0;
     Texture food;
     Texture badfood;
     Texture snakeh;
@@ -147,6 +149,8 @@ snake-hat.png*/
         //raindrops = new Array<Rectangle>();
         //spawnRaindrop();
         backs = new Array<Rectangle>();
+        Rectangle back = new Rectangle();
+        backs.add(back);
         spawnFood();
         spawnFoodb();
         step();
@@ -173,6 +177,7 @@ snake-hat.png*/
         score += 10;
         length++;
         spawnFood();
+        addLen();
     }
     private void spawnFoodb () {
         foodbr.x = MathUtils.random(0, width - 10);
@@ -185,6 +190,27 @@ snake-hat.png*/
         spawnFoodb();
     }
     private void step () {
+        backs.reverse();
+        Iterator<Rectangle> iter = backs.iterator();
+        int u = backs.size-1;
+        while (iter.hasNext()){
+            Rectangle back = iter.next();
+            u--;
+            if (u == 0){
+                back.x = snakehr.x;
+                back.y = snakehr.y;
+            }
+            else {
+            Rectangle bc = backs.get(u);
+            back.x = bc.x;
+            back.y = bc.y;}
+
+
+
+
+
+        }
+        backs.reverse();
         if (state == 0)
             snakehr.y += 10;
         if (state == 1)
@@ -195,11 +221,10 @@ snake-hat.png*/
             snakehr.y -= 10;
         //snakehr.x += 10;
         lastStepTime = TimeUtils.nanoTime();
+
     }
     private void addLen () {
-        backs.removeIndex().size
         Rectangle back = new Rectangle();
-        back.x =
         backs.add(back);
     }
 
@@ -219,6 +244,8 @@ snake-hat.png*/
         game.font.draw(game.batch, "Score: "+score, 0, 480);
         for (Rectangle back: backs){
             game.batch.draw(snakeb,back.x, back.y);
+            System.out.println(back.x);
+            System.out.println(back.y);
         }
         //game.batch.draw(bucketImage, bucket.x, bucket.y);
         //for (Rectangle raindrop: raindrops){
@@ -255,6 +282,8 @@ snake-hat.png*/
 
         //if (bucket.x < 0) bucket.x = 0;
         //if (bucket.x > 800 - 64) bucket.x = 800 - 64;
+
+
 
         //if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop();
         //raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
