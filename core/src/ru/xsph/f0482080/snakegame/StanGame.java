@@ -11,10 +11,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
+//import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.input.GestureDetector;
+
+
 import java.util.Iterator;
 
 
@@ -26,12 +28,19 @@ public class StanGame implements Screen {
     int width = 800;
     int height = 480;
     int score = 0;
+    int state = 0;
+    int lastPosX = 0;
+    int lastPosY = 0;
     Texture food;
     Texture badfood;
     Texture snakeh;
     Texture snakeb;
     Rectangle foodr;
     Rectangle foodbr;
+    Rectangle snakehr;
+    long lastStepTime;
+    Array<Rectangle> backs;
+    Array<Rectangle> backsc;
     //Texture dropImage;
     //Texture bucketImage;
     //Sound dropSound;
@@ -94,37 +103,53 @@ snake-hat.png*/
         //bucket.width = 64;
         //bucket.height = 64;
 
+        snakehr = new Rectangle();
+        snakehr.x = (800 / 2) - 10;
+        snakehr.y = (480 / 2) - 10;
+        snakehr.width = 10;
+        snakehr.height = 10;
+
         Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
 
             @Override
             public void onUp() {
-                System.out.println(1);
+                System.out.println(0);
+                if (state != 3)
+                    state = 0;
                 //bucket.y += 30;
             }
 
             @Override
             public void onRight() {
-                System.out.println(2);
+                System.out.println(1);
+                if (state != 2)
+                    state = 1;
                 //bucket.x += 30;
             }
 
             @Override
             public void onLeft() {
-                System.out.println(3);
+                System.out.println(2);
+                if (state != 1)
+                    state = 2;
                 //bucket.x -= 30;
             }
 
             @Override
             public void onDown() {
-                System.out.println(4);
+                System.out.println(3);
+                if (state != 0)
+                    state = 3;
                 //bucket.y -= 30;
             }
         }));
 
         //raindrops = new Array<Rectangle>();
         //spawnRaindrop();
+        backs = new Array<Rectangle>();
         spawnFood();
         spawnFoodb();
+        step();
 
     }
 
@@ -153,7 +178,30 @@ snake-hat.png*/
         foodbr.x = MathUtils.random(0, width - 10);
         foodbr.y = MathUtils.random(0, height - 10);
     }
-    private void eatFoodb () {} 
+    private void eatFoodb () {
+        score -= 10;
+        if (length  != 0)
+            length --;
+        spawnFoodb();
+    }
+    private void step () {
+        if (state == 0)
+            snakehr.y += 10;
+        if (state == 1)
+            snakehr.x += 10;
+        if (state == 2)
+            snakehr.x -= 10;
+        if (state == 3)
+            snakehr.y -= 10;
+        //snakehr.x += 10;
+        lastStepTime = TimeUtils.nanoTime();
+    }
+    private void addLen () {
+        backs.removeIndex().size
+        Rectangle back = new Rectangle();
+        back.x =
+        backs.add(back);
+    }
 
 
     @Override
@@ -166,12 +214,29 @@ snake-hat.png*/
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         game.batch.draw(food, foodr.x, foodr.y);
-        //game.font.draw(game.batch, "Score: ", 0, 480);
+        game.batch.draw(snakeh, snakehr.x, snakehr.y);
+        game.batch.draw(badfood, foodbr.x, foodbr.y);
+        game.font.draw(game.batch, "Score: "+score, 0, 480);
+        for (Rectangle back: backs){
+            game.batch.draw(snakeb,back.x, back.y);
+        }
         //game.batch.draw(bucketImage, bucket.x, bucket.y);
         //for (Rectangle raindrop: raindrops){
         //    game.batch.draw(dropImage, raindrop.x, raindrop.y);
         //}
         game.batch.end();
+
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)){if (state != 3) state = 0;}
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){if (state != 2) state = 1;}
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){if (state != 1) state = 2;}
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){if (state != 0) state = 3;}
+
+        if (TimeUtils.nanoTime() - lastStepTime > 100000000) step();
+        if (snakehr.overlaps(foodr)){eatFood(); }
+        if (snakehr.overlaps(foodbr)){eatFoodb();}
+        //snakehr.y -= 200 * Gdx.graphics.getDeltaTime();
+
+
 
         /*if(Gdx.input.isTouched()){
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -192,7 +257,7 @@ snake-hat.png*/
         //if (bucket.x > 800 - 64) bucket.x = 800 - 64;
 
         //if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop();
-
+        //raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
         //Iterator<Rectangle> iter = raindrops.iterator();
         //while (iter.hasNext()){
             //Rectangle raindrop = iter.next();
@@ -204,6 +269,7 @@ snake-hat.png*/
                 //iter.remove();
             //}
         //}
+        //Iterator<Rectangle>
     }
 
     @Override
