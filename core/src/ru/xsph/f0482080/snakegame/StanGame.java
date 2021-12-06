@@ -25,11 +25,13 @@ public class StanGame implements Screen {
     int block = 10;
     int width = 800;
     int height = 480;
+    int score = 0;
     Texture food;
     Texture badfood;
     Texture snakeh;
     Texture snakeb;
     Rectangle foodr;
+    Rectangle foodbr;
     //Texture dropImage;
     //Texture bucketImage;
     //Sound dropSound;
@@ -73,6 +75,7 @@ snake-hat.png*/
         snakeb  = new Texture("snake-back.png");
 
         foodr = new Rectangle();
+        foodbr = new Rectangle();
         foodr.width = block;
     	foodr.height = block;
 
@@ -121,6 +124,7 @@ snake-hat.png*/
         //raindrops = new Array<Rectangle>();
         //spawnRaindrop();
         spawnFood();
+        spawnFoodb();
 
     }
 
@@ -140,6 +144,17 @@ snake-hat.png*/
 
 
     }
+    private void eatFood () {
+        score += 10;
+        length++;
+        spawnFood();
+    }
+    private void spawnFoodb () {
+        foodbr.x = MathUtils.random(0, width - 10);
+        foodbr.y = MathUtils.random(0, height - 10);
+    }
+    private void eatFoodb () {} 
+
 
     @Override
     public void render (float delta) {
