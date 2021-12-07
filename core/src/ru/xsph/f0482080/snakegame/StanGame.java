@@ -24,25 +24,19 @@ public class StanGame implements Screen {
     final Snake game;
     OrthographicCamera camera;
     int length = 1;
-    int block = 10;
     int width = 800;
     int height = 480;
     int score = 0;
     int state = 0;
-    float lastPosX = 0;
-    float lastPosY = 0;
-    float lastPosXQ = 0;
-    float lastPosYQ = 0;
     Texture food;
-    Texture badfood;
+   //Texture badfood;
     Texture snakeh;
     Texture snakeb;
     Rectangle foodr;
-    Rectangle foodbr;
+    //Rectangle foodbr;
     Rectangle snakehr;
     long lastStepTime;
     Array<Rectangle> backs;
-    Array<Rectangle> backsc;
     //Texture dropImage;
     //Texture bucketImage;
     //Sound dropSound;
@@ -74,21 +68,20 @@ snake-hat.png*/
     public StanGame (final Snake gam) {
         //GestureDetector input = new GestureDetector(this);
         this.game = gam;
-
         camera = new OrthographicCamera();
         camera.setToOrtho(false, width, height);
 
         //touchPos = new Vector3();
 
         food    = new Texture("food.png");
-        badfood = new Texture("bad-food.png");
+        //badfood = new Texture("bad-food.png");
         snakeh  = new Texture("snake-hat.png");
         snakeb  = new Texture("snake-back.png");
 
         foodr = new Rectangle();
-        foodbr = new Rectangle();
-        foodr.width = block;
-    	foodr.height = block;
+        //foodbr = new Rectangle();
+        foodr.width = 10;
+    	foodr.height = 10;
 
         //dropImage = new Texture("kaplya.png");
         //bucketImage = new Texture("bucket.png");
@@ -152,7 +145,7 @@ snake-hat.png*/
         Rectangle back = new Rectangle();
         backs.add(back);
         spawnFood();
-        spawnFoodb();
+        //spawnFoodb();
         step();
 
     }
@@ -168,6 +161,7 @@ snake-hat.png*/
     }*/
     private void spawnFood (){
     	//foodr = new Rectangle();
+
     	foodr.x = MathUtils.random(0, width - 10);
     	foodr.y = MathUtils.random(0, height - 10);
 
@@ -179,20 +173,21 @@ snake-hat.png*/
         spawnFood();
         addLen();
     }
-    private void spawnFoodb () {
+    /*private void spawnFoodb () {
         foodbr.x = MathUtils.random(0, width - 10);
         foodbr.y = MathUtils.random(0, height - 10);
-    }
-    private void eatFoodb () {
+    }*/
+    /*private void eatFoodb () {
         score -= 10;
-        if (length  != 0)
-            length --;
+        //if (length  != 0)
+            //length --;
         spawnFoodb();
-    }
+    }*/
     private void step () {
-        backs.reverse();
+        /*backs.reverse();
         Iterator<Rectangle> iter = backs.iterator();
-        int u = backs.size-1;
+        int u = backs.size;
+        System.out.println(u);
         while (iter.hasNext()){
             Rectangle back = iter.next();
             u--;
@@ -201,7 +196,7 @@ snake-hat.png*/
                 back.y = snakehr.y;
             }
             else {
-            Rectangle bc = backs.get(u);
+            Rectangle bc = backs.get(u-1);
             back.x = bc.x;
             back.y = bc.y;}
 
@@ -209,7 +204,13 @@ snake-hat.png*/
 
 
 
-        }
+        }*/
+        backs.pop();
+        backs.reverse();
+        Rectangle back = new Rectangle();
+        back.x = snakehr.x;
+        back.y = snakehr.y;
+        backs.add(back);
         backs.reverse();
         if (state == 0)
             snakehr.y += 10;
@@ -225,6 +226,9 @@ snake-hat.png*/
     }
     private void addLen () {
         Rectangle back = new Rectangle();
+        Rectangle bc = backs.get(backs.size-1);
+        back.x = bc.x;
+        back.y = bc.y;
         backs.add(back);
     }
 
@@ -240,12 +244,11 @@ snake-hat.png*/
         game.batch.begin();
         game.batch.draw(food, foodr.x, foodr.y);
         game.batch.draw(snakeh, snakehr.x, snakehr.y);
-        game.batch.draw(badfood, foodbr.x, foodbr.y);
+        //game.batch.draw(badfood, foodbr.x, foodbr.y);
         game.font.draw(game.batch, "Score: "+score, 0, 480);
         for (Rectangle back: backs){
             game.batch.draw(snakeb,back.x, back.y);
-            System.out.println(back.x);
-            System.out.println(back.y);
+
         }
         //game.batch.draw(bucketImage, bucket.x, bucket.y);
         //for (Rectangle raindrop: raindrops){
@@ -259,8 +262,9 @@ snake-hat.png*/
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){if (state != 0) state = 3;}
 
         if (TimeUtils.nanoTime() - lastStepTime > 100000000) step();
+        //if (snakehr.overlaps(foodbr)){eatFoodb();}
         if (snakehr.overlaps(foodr)){eatFood(); }
-        if (snakehr.overlaps(foodbr)){eatFoodb();}
+
         //snakehr.y -= 200 * Gdx.graphics.getDeltaTime();
 
 
@@ -324,7 +328,7 @@ snake-hat.png*/
     @Override
     public void dispose() {
         food.dispose();
-        badfood.dispose();
+       // badfood.dispose();
         snakeh.dispose();
         snakeb.dispose();
         //dropImage.dispose();

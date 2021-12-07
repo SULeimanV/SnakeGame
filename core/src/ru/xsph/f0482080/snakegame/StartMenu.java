@@ -4,17 +4,45 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 
 public class StartMenu implements Screen {
     final Snake game;
     OrthographicCamera camera;
 
+
+    Stage stage;
+    TextButton button;
+    TextButton.TextButtonStyle textButtonStyle;
+    BitmapFont font;
+    Skin skin;
+    TextureAtlas buttonAtlas;
+
+
     public StartMenu(final Snake gam) {
         game = gam;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
+
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+        font = new BitmapFont();
+        skin = new Skin();
+        buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons.pack"));
+        skin.addRegions(buttonAtlas);
+        textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.font = font;
+        textButtonStyle.up = skin.getDrawable("up-button");
+        textButtonStyle.down = skin.getDrawable("down-button");
+        textButtonStyle.checked = skin.getDrawable("checked-button");
+        button = new TextButton("Button1", textButtonStyle);
+        stage.addActor(button);
     }
     @Override
     public void show() {

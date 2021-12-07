@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Snake extends Game {
 	SpriteBatch batch;
 	BitmapFont font;
+	int dd;
 	/*OrthographicCamera camera;
 	SpriteBatch batch;
 	Texture snakehead;
