@@ -16,12 +16,7 @@ public class StartMenu implements Screen {
     OrthographicCamera camera;
 
 
-    Stage stage;
-    TextButton button;
-    TextButton.TextButtonStyle textButtonStyle;
-    BitmapFont font;
-    Skin skin;
-    TextureAtlas buttonAtlas;
+
 
 
     public StartMenu(final Snake gam) {
@@ -30,19 +25,7 @@ public class StartMenu implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
 
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
-        font = new BitmapFont();
-        skin = new Skin();
-        buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons.pack"));
-        skin.addRegions(buttonAtlas);
-        textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font = font;
-        textButtonStyle.up = skin.getDrawable("up-button");
-        textButtonStyle.down = skin.getDrawable("down-button");
-        textButtonStyle.checked = skin.getDrawable("checked-button");
-        button = new TextButton("Button1", textButtonStyle);
-        stage.addActor(button);
+
     }
     @Override
     public void show() {

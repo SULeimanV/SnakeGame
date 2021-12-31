@@ -214,12 +214,16 @@ snake-hat.png*/
         backs.reverse();
         if (state == 0)
             snakehr.y += 10;
-        if (state == 1)
+        else if (state == 1)
             snakehr.x += 10;
-        if (state == 2)
+        else if (state == 2)
             snakehr.x -= 10;
-        if (state == 3)
+        else if (state == 3)
             snakehr.y -= 10;
+        if (snakehr.x > 790) snakehr.x = 0;
+        if (snakehr.x < 0) snakehr.x = 800;
+        if (snakehr.y > 470) snakehr.y = 0;
+        if (snakehr.y < 0) snakehr.y = 480;
         //snakehr.x += 10;
         lastStepTime = TimeUtils.nanoTime();
 
